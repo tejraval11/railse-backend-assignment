@@ -23,6 +23,7 @@ public class TaskManagementDto {
     private Long assigneeId;
     private Long taskDeadlineTime;
     private Priority priority;
+    //feature 3
     private List<String> comments = new ArrayList<>();
     private List<String> activityHistory = new ArrayList<>();
 }
