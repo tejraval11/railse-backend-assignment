@@ -58,6 +58,14 @@ public class TaskManagementController {
         return new Response<>(taskManagementService.findByPriority(priority));
     }
 
+    //feature 3
+    @PostMapping("/{id}/comment")
+    public Response<TaskManagementDto> addComment(
+            @PathVariable Long id,
+            @RequestBody String comment
+    ) {
+        return new Response<>(taskManagementService.addComment(id, comment));
+    }
 
     //for testing
     @GetMapping("/by-reference")

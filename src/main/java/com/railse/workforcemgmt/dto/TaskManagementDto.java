@@ -8,6 +8,9 @@ import com.railse.workforcemgmt.model.enums.Task;
 import com.railse.workforcemgmt.model.enums.TaskStatus;
 import lombok.Data;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Data
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class TaskManagementDto {
@@ -20,4 +23,6 @@ public class TaskManagementDto {
     private Long assigneeId;
     private Long taskDeadlineTime;
     private Priority priority;
+    private List<String> comments = new ArrayList<>();
+    private List<String> activityHistory = new ArrayList<>();
 }

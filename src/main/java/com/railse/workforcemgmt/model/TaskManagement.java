@@ -6,6 +6,9 @@ import com.railse.workforcemgmt.model.enums.Task;
 import com.railse.workforcemgmt.model.enums.TaskStatus;
 import lombok.Data;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Data
 public class TaskManagement {
     private Long id;
@@ -17,4 +20,7 @@ public class TaskManagement {
     private Long assigneeId; // Simplified from Entity for this assignment
     private Long taskDeadlineTime;
     private Priority priority;
+    private List<String> comments = new ArrayList<>();
+    private List<String> activityHistory = new ArrayList<>();
+
 }

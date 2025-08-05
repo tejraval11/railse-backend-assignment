@@ -18,6 +18,9 @@ public interface TaskManagementService {
     TaskManagementDto updatePriority(Long taskId, Priority priority);
     List<TaskManagementDto> findByPriority(Priority priority);
 
+    //feature 2
+    TaskManagementDto addComment(Long taskId, String comment);
+
     //for testing
     List<TaskManagementDto> getTasksByReference(Long referenceId, ReferenceType referenceType);
 

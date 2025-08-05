@@ -51,6 +51,10 @@ public class TaskManagementServiceImpl implements TaskManagementService {
             newTask.setStatus(TaskStatus.ASSIGNED);
             newTask.setDescription("New task created.");
             createdTasks.add(taskRepository.save(newTask));
+            newTask.setComments(new ArrayList<>());
+            newTask.setActivityHistory(new ArrayList<>());
+            newTask.getActivityHistory().add("Task created and assigned to user ID: " + item.getAssigneeId());
+
         }
         return taskMapper.modelListToDtoList(createdTasks);
     }
@@ -154,6 +158,20 @@ public class TaskManagementServiceImpl implements TaskManagementService {
         );
     }
 
+    //feature 3
+    @Override
+    public TaskManagementDto addComment(Long taskId, String comment) {
+        TaskManagement task = taskRepository.findById(taskId)
+                .orElseThrow(() -> new ResourceNotFoundException("Task not found with ID: " + taskId));
+
+        if (task.getComments() == null) task.setComments(new ArrayList<>());
+        if (task.getActivityHistory() == null) task.setActivityHistory(new ArrayList<>());
+
+        task.getComments().add(comment);
+        task.getActivityHistory().add("Comment added: " + comment);
+
+        return taskMapper.modelToDto(taskRepository.save(task));
+    }
 
     //for testing
     @Override
