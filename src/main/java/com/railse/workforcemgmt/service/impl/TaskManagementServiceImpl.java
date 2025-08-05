@@ -95,7 +95,14 @@ public class TaskManagementServiceImpl implements TaskManagementService {
 
             // BUG #1 is here. It should assign one and cancel the rest.
             // Instead, it reassigns ALL of them.
-            if (!tasksOfType.isEmpty()) {
+//            if (!tasksOfType.isEmpty()) {
+//                for (TaskManagement taskToUpdate : tasksOfType) {
+//                    taskToUpdate.setAssigneeId(request.getAssigneeId());
+//                    taskRepository.save(taskToUpdate);
+//                }
+
+            // Solution
+                if (!tasksOfType.isEmpty()) {
                 for (TaskManagement taskToUpdate : tasksOfType) {
                     if (!taskToUpdate.getAssigneeId().equals(request.getAssigneeId())) {
                         taskToUpdate.setStatus(TaskStatus.CANCELLED);
@@ -123,6 +130,15 @@ public class TaskManagementServiceImpl implements TaskManagementService {
                 taskRepository.findByAssigneeIdIn(request.getAssigneeIds());
 
         // BUG #2 is here. It should filter out CANCELLED tasks but doesn't.
+//        List<TaskManagement> filteredTasks = tasks.stream()
+//                .filter(task -> {
+//                    // This logic is incomplete for the assignment.
+//                    // It should check against startDate and endDate.
+//                    // For now, it just returns all tasks for the
+//                    assignees.
+//                    return true;
+//                })
+
         // BUG #2 Fixed and FEATURE #1 Added.
         List<TaskManagement> filteredTasks = tasks.stream()
                 .filter(task -> task.getStatus() != TaskStatus.CANCELLED)
