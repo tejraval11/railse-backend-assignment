@@ -4,6 +4,7 @@ import com.railse.workforcemgmt.common.exception.ResourceNotFoundException;
 import com.railse.workforcemgmt.dto.*;
 import com.railse.workforcemgmt.mapper.ITaskManagementMapper;
 import com.railse.workforcemgmt.model.TaskManagement;
+import com.railse.workforcemgmt.model.enums.ReferenceType;
 import com.railse.workforcemgmt.model.enums.Task;
 import com.railse.workforcemgmt.model.enums.TaskStatus;
 import com.railse.workforcemgmt.repository.TaskRepository;
@@ -91,8 +92,9 @@ public class TaskManagementServiceImpl implements TaskManagementService {
             // Instead, it reassigns ALL of them.
             if (!tasksOfType.isEmpty()) {
                 for (TaskManagement taskToUpdate : tasksOfType) {
-                    taskToUpdate.setAssigneeId(request.getAssigneeId());
-                    taskRepository.save(taskToUpdate);
+                    if (!taskToUpdate.getAssigneeId().equals(request.getAssigneeId())) {
+                        taskToUpdate.setStatus(TaskStatus.CANCELLED);
+                    }
                 }
             } else {
                 // Create a new task if none exist
@@ -127,4 +129,12 @@ public class TaskManagementServiceImpl implements TaskManagementService {
 
         return taskMapper.modelListToDtoList(filteredTasks);
     }
+
+    //for testing
+    @Override
+    public List<TaskManagementDto> getTasksByReference(Long referenceId, ReferenceType referenceType) {
+        List<TaskManagement> tasks = taskRepository.findByReferenceIdAndReferenceType(referenceId, referenceType);
+        return taskMapper.modelListToDtoList(tasks);
+    }
+
 }

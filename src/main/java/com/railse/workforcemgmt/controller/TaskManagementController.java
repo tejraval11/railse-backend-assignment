@@ -2,6 +2,7 @@ package com.railse.workforcemgmt.controller;
 
 import com.railse.workforcemgmt.dto.*;
 import com.railse.workforcemgmt.dto.response.Response;
+import com.railse.workforcemgmt.model.enums.ReferenceType;
 import com.railse.workforcemgmt.service.TaskManagementService;
 import org.springframework.web.bind.annotation.*;
 
@@ -40,5 +41,14 @@ public class TaskManagementController {
     @PostMapping("/fetch-by-date/v2")
     public Response<List<TaskManagementDto>> fetchByDate(@RequestBody TaskFetchByDateRequest request) {
         return new Response<>(taskManagementService.fetchTasksByDate(request));
+    }
+
+    //for testing
+    @GetMapping("/by-reference")
+    public Response<List<TaskManagementDto>> getTasksByReference(
+            @RequestParam Long referenceId,
+            @RequestParam ReferenceType referenceType
+    ) {
+        return new Response<>(taskManagementService.getTasksByReference(referenceId, referenceType));
     }
 }
