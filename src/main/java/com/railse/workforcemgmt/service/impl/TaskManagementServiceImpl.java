@@ -4,6 +4,7 @@ import com.railse.workforcemgmt.common.exception.ResourceNotFoundException;
 import com.railse.workforcemgmt.dto.*;
 import com.railse.workforcemgmt.mapper.ITaskManagementMapper;
 import com.railse.workforcemgmt.model.TaskManagement;
+import com.railse.workforcemgmt.model.enums.Priority;
 import com.railse.workforcemgmt.model.enums.ReferenceType;
 import com.railse.workforcemgmt.model.enums.Task;
 import com.railse.workforcemgmt.model.enums.TaskStatus;
@@ -133,6 +134,26 @@ public class TaskManagementServiceImpl implements TaskManagementService {
 
         return taskMapper.modelListToDtoList(filteredTasks);
     }
+
+    //feature 2
+    @Override
+    public TaskManagementDto updatePriority(Long taskId, Priority priority) {
+        TaskManagement task = taskRepository.findById(taskId)
+                .orElseThrow(() -> new ResourceNotFoundException("Task not found with ID: " + taskId));
+        task.setPriority(priority);
+        //task.getActivityHistory().add("Priority changed to " + priority);
+        return taskMapper.modelToDto(taskRepository.save(task));
+    }
+
+    @Override
+    public List<TaskManagementDto> findByPriority(Priority priority) {
+        return taskMapper.modelListToDtoList(
+                taskRepository.findAll().stream()
+                        .filter(task -> task.getPriority() == priority)
+                        .collect(Collectors.toList())
+        );
+    }
+
 
     //for testing
     @Override

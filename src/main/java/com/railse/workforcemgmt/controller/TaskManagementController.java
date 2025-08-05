@@ -2,6 +2,7 @@ package com.railse.workforcemgmt.controller;
 
 import com.railse.workforcemgmt.dto.*;
 import com.railse.workforcemgmt.dto.response.Response;
+import com.railse.workforcemgmt.model.enums.Priority;
 import com.railse.workforcemgmt.model.enums.ReferenceType;
 import com.railse.workforcemgmt.service.TaskManagementService;
 import org.springframework.web.bind.annotation.*;
@@ -42,6 +43,21 @@ public class TaskManagementController {
     public Response<List<TaskManagementDto>> fetchByDate(@RequestBody TaskFetchByDateRequest request) {
         return new Response<>(taskManagementService.fetchTasksByDate(request));
     }
+
+    //feature 2
+    @PatchMapping("/{taskId}/priority")
+    public Response<TaskManagementDto> updatePriority(
+            @PathVariable Long taskId,
+            @RequestParam Priority priority
+    ) {
+        return new Response<>(taskManagementService.updatePriority(taskId, priority));
+    }
+
+    @GetMapping("/priority/{priority}")
+    public Response<List<TaskManagementDto>> getTasksByPriority(@PathVariable Priority priority) {
+        return new Response<>(taskManagementService.findByPriority(priority));
+    }
+
 
     //for testing
     @GetMapping("/by-reference")
