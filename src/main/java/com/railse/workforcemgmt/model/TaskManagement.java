@@ -20,6 +20,7 @@ public class TaskManagement {
     private Long assigneeId; // Simplified from Entity for this assignment
     private Long taskDeadlineTime;
     private Priority priority;
+    //feature 3
     private List<String> comments = new ArrayList<>();
     private List<String> activityHistory = new ArrayList<>();
 
